@@ -9,7 +9,7 @@ morgan.token('body', (req) => {
 
 const { pool } = require('./db/db');
 const authRouter = require('./controllers/authRouter');
-const userRouter = require('./controllers/userRouter');
+const usersRouter = require('./controllers/usersRouter');
 const blogsRouter = require('./controllers/blogsRouter');
 
 app.use(express.static('build'));
@@ -19,7 +19,7 @@ app.use(
 	morgan(':method :url :status :res[content-length] - :response-time ms :body')
 );
 app.use('/api/auth', authRouter);
-app.use('/api/user', userRouter);
+app.use('/api/users', usersRouter);
 app.use('/api/blogs', blogsRouter);
 
 app.get('/', (req, res) => {
