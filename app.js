@@ -10,7 +10,7 @@ morgan.token('body', (req) => {
 const { pool } = require('./db/db');
 const authRouter = require('./controllers/authRouter');
 const userRouter = require('./controllers/userRouter');
-const blogRouter = require('./controllers/blogRouter');
+const blogsRouter = require('./controllers/blogsRouter');
 
 app.use(express.static('build'));
 app.use(express.json());
@@ -20,7 +20,7 @@ app.use(
 );
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
-app.use('/api/blog', blogRouter);
+app.use('/api/blogs', blogsRouter);
 
 app.get('/', (req, res) => {
 	res.sendStatus(200);
