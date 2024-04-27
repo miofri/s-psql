@@ -5,7 +5,7 @@ CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
 	email VARCHAR(255) UNIQUE NOT NULL,
 	password VARCHAR(255) NOT NULL,
-	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Blog table, cascade delete so that when user is deleted, blogs are also deleted.
@@ -13,11 +13,11 @@ CREATE TABLE blogs (
 	id SERIAL PRIMARY KEY,
 	title VARCHAR(255) NOT NULL,
 	body TEXT,
-	date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 	user_id INT REFERENCES users(id) ON
 	DELETE
 		CASCADE,
-		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+		created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Followers table, cascade delete so when user is deleted, any follow relationship is deleted.
