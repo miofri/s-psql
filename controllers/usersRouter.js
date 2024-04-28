@@ -6,6 +6,9 @@ const saltRounds = 10;
 
 usersRouter.post('/signup', async (req, res) => {
 	bcrypt.hash(req.body.password, saltRounds, async function (error, hash) {
+		if (error) {
+			next(error);
+		}
 		try {
 			const query = await pool.query(
 				`INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *`,
@@ -21,16 +24,19 @@ usersRouter.post('/signup', async (req, res) => {
 	});
 });
 
-usersRouter.put('/user', headerCheck_mw, async (req, res) => {
-	try {
-		bcrypt.hash(req.body.password, saltRounds, async function (error, hash) {
+usersRouter.put('/:userid', headerCheck_mw, async (req, res) => {
+	bcrypt.hash(req.body.password, saltRounds, async function (error, hash) {
+		if (error) {
+			next(error);
+		}
+		try {
 			const query = await pool.query(
 				`UPDATE users SET password = $1 WHERE email = $2`,
-				[hash, req.body.email]
+				[hash, req.user.email]
 			);
-		});
-	} catch (error) {
-		next(error);
-	}
+		} catch (error) {
+			next(error);
+		}
+	});
 });
 module.exports = usersRouter;
