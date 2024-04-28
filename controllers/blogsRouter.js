@@ -1,7 +1,9 @@
 const blogsRouter = require('express').Router();
-const { pool } = require('../db/db');
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
+
+const { pool } = require('../db/db');
+const headerCheckMiddleware = require('./middlewares/headerCheckMiddleware');
 
 const notAuthorizedMiddleware = (req, res, next) => {
 	res.status(401).json({ message: 'Not authorized!' });
@@ -19,22 +21,10 @@ blogsRouter.get('/:userid', async (req, res) => {
 	}
 });
 
-blogsRouter.post('/newpost', async (req, res, next) => {
-	if (!req.headers.authorization) {
-		next();
-	}
-	const authorizationHeader = req.headers.authorization.split(' ')[1];
-	try {
-		const jwtVerify = jwt.verify(
-			authorizationHeader,
-			process.env.JWT_SECRET_KEY
-		);
-		console.log(jwtVerify);
-		res.json({ message: 'authorized' });
-	} catch (err) {
-		console.error(err);
-		next();
-	}
+blogsRouter.post('/newpost', headerCheckMiddleware, async (req, res, next) => {
+	console.log(req.email);
+
+	res.sendStatus(200);
 });
 
 blogsRouter.use(notAuthorizedMiddleware);
