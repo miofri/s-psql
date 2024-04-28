@@ -1,25 +1,36 @@
 const usersRouter = require('express').Router();
 const { pool } = require('../db/db');
 const bcrypt = require('bcrypt');
+const headerCheck_mw = require('./middlewares/headerCheck_mw');
 const saltRounds = 10;
 
 usersRouter.post('/signup', async (req, res) => {
-	try {
-		const email = req.body.email;
-		const password = req.body.password;
-		bcrypt.hash(password, saltRounds, async function (err, hash) {
+	bcrypt.hash(req.body.password, saltRounds, async function (error, hash) {
+		try {
 			const query = await pool.query(
 				`INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *`,
-				[email, hash]
+				[req.body.email, hash]
 			);
-			console.log(query);
 			res.sendStatus(201);
+		} catch (error) {
+			console.error('Error executing query:', error);
+			res
+				.status(500)
+				.json({ message: 'Internal server error: Registration failed' });
+		}
+	});
+});
+
+usersRouter.put('/user', headerCheck_mw, async (req, res) => {
+	try {
+		bcrypt.hash(req.body.password, saltRounds, async function (error, hash) {
+			const query = await pool.query(
+				`UPDATE users SET password = $1 WHERE email = $2`,
+				[hash, req.body.email]
+			);
 		});
 	} catch (error) {
-		console.error('Error executing query:', error);
-		res
-			.status(500)
-			.json({ message: 'Internal server error: Registration failed' });
+		next(error);
 	}
 });
 module.exports = usersRouter;

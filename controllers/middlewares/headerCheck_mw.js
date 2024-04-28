@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const headerCheckMiddleware = (req, res, next) => {
+const headerCheck_mw = (req, res, next) => {
 	if (!req.headers.authorization) {
 		next();
 	}
@@ -10,7 +10,7 @@ const headerCheckMiddleware = (req, res, next) => {
 			authorizationHeader,
 			process.env.JWT_SECRET_KEY
 		);
-		req.email = { email: jwtVerify.email };
+		req.user = { email: jwtVerify.email };
 		next();
 	} catch (err) {
 		console.error(err);
@@ -18,4 +18,4 @@ const headerCheckMiddleware = (req, res, next) => {
 	}
 };
 
-module.exports = headerCheckMiddleware;
+module.exports = headerCheck_mw;

@@ -1,7 +1,7 @@
 const { pool } = require('../../db/db');
 const bcrypt = require('bcrypt');
 
-const authenticateUserMiddleware = async (req, res, next) => {
+const auth_mw = async (req, res, next) => {
 	const email = req.body.email;
 	const password = req.body.password;
 
@@ -26,4 +26,4 @@ const authenticateUserMiddleware = async (req, res, next) => {
 	next();
 };
 
-module.exports = authenticateUserMiddleware;
+module.exports = auth_mw;
