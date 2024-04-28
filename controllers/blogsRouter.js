@@ -14,4 +14,6 @@ blogsRouter.get('/:userid', async (req, res) => {
 	}
 });
 
+blogsRouter.post('/newpost', async (req, res) => {});
+
 module.exports = blogsRouter;
