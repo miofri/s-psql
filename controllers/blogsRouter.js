@@ -24,21 +24,18 @@ blogsRouter.get('/post/:userid', async (req, res) => {
 
 blogsRouter.post('/post', headerCheck_mw, async (req, res, next) => {
 	try {
-		const emailQuery = await pool.query(queries.findUserByEmail, [
-			req.user.email,
-		]);
 		const query = await pool.query(queries.createNewBlog, [
 			req.body.title,
 			req.body.body,
-			emailQuery?.rows[0].id,
+			req.body.user_id,
 		]);
-		res.sendStatus(200);
+		res.status(200).json({ message: 'post created successfully' });
 	} catch (error) {
 		next(error);
 	}
 });
 
-blogsRouter.put('/post', headerCheck_mw, async (req, res, next) => {
+blogsRouter.patch('/post', headerCheck_mw, async (req, res, next) => {
 	try {
 		const query = await pool.query(queries.updateBlogById, [
 			req.body.title,
@@ -46,7 +43,7 @@ blogsRouter.put('/post', headerCheck_mw, async (req, res, next) => {
 			new Date(),
 			req.body.post_id,
 		]);
-		res.sendStatus(200);
+		res.status(200).json({ message: 'patch completed successfully' });
 	} catch (error) {
 		next(error);
 	}
@@ -54,8 +51,8 @@ blogsRouter.put('/post', headerCheck_mw, async (req, res, next) => {
 
 blogsRouter.delete('/post', headerCheck_mw, async (req, res, next) => {
 	try {
-		const query = await pool.query(queries.deleteBlogById, [blog_id]);
-		res.sendStatus(200);
+		const query = await pool.query(queries.deleteBlogById, [req.body.post_id]);
+		res.status(200).json({ message: 'post deleted' });
 	} catch (error) {
 		next(error);
 	}

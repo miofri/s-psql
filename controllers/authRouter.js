@@ -13,7 +13,7 @@ authRouter.post('/login', auth_mw, async (req, res) => {
 		{ expiresIn: '30m' }
 	);
 
-	res.json({ token });
+	res.json({ token: token, user: req.user });
 });
 
 module.exports = authRouter;

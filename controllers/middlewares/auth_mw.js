@@ -18,11 +18,10 @@ const auth_mw = async (req, res, next) => {
 	console.log(match);
 
 	if (!match) {
-		const bcrypt = require('bcrypt');
 		return res.status(401).json({ message: 'Login failed - unathourized' });
 	}
 
-	req.user = { email: found.rows[0].email };
+	req.user = { email: found.rows[0].email, user_id: found.rows[0].id };
 	next();
 };
 
