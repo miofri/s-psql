@@ -7,11 +7,10 @@ const headerCheck_mw = require('./middlewares/headerCheck_mw');
 const queries = require('./queries');
 
 const notAuthorizedMiddleware = (req, res, next) => {
-	res.status(401).json({ message: 'Not authorized!' });
-	next();
+	return res.status(401).json({ message: 'Not authorized!' });
 };
 
-blogsRouter.get('/post/:userid', async (req, res) => {
+blogsRouter.get('/post/:userid', headerCheck_mw, async (req, res, next) => {
 	try {
 		const query = await pool.query(queries.selectPostsByid, [
 			req.params.userid,
@@ -57,6 +56,7 @@ blogsRouter.delete('/post', headerCheck_mw, async (req, res, next) => {
 		next(error);
 	}
 });
+
 blogsRouter.use(notAuthorizedMiddleware);
 
 module.exports = blogsRouter;

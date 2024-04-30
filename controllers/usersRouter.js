@@ -37,6 +37,7 @@ usersRouter.patch('/changepassword', headerCheck_mw, async (req, res, next) => {
 			]);
 			res.status(200).json({ message: 'password changed successfully' });
 		} catch (error) {
+			res.status(401).json({ message: 'Not authorized' });
 			next(error);
 		}
 	});

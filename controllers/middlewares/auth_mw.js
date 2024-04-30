@@ -2,6 +2,11 @@ const { pool } = require('../../db/db');
 const bcrypt = require('bcrypt');
 
 const auth_mw = async (req, res, next) => {
+	if (!req.body.email || !req.body.password) {
+		return res
+			.status(401)
+			.json({ message: 'Login failed - missing credentials' });
+	}
 	const email = req.body.email;
 	const password = req.body.password;
 

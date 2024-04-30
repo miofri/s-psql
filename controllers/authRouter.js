@@ -10,7 +10,7 @@ authRouter.post('/login', auth_mw, async (req, res) => {
 			email: req.user.email,
 		},
 		process.env.JWT_SECRET_KEY,
-		{ expiresIn: '30m' }
+		{ expiresIn: '1m' }
 	);
 
 	res.json({ token: token, user: req.user });

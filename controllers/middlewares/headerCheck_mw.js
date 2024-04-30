@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const headerCheck_mw = (req, res, next) => {
 	if (!req.headers.authorization) {
-		next();
+		return res.status(401).json({ message: 'No token' });
 	}
 	const authorizationHeader = req.headers.authorization.split(' ')[1];
 	try {
@@ -12,9 +12,8 @@ const headerCheck_mw = (req, res, next) => {
 		);
 		req.user = { email: jwtVerify.email };
 		next();
-	} catch (err) {
-		console.error(err);
-		next();
+	} catch (error) {
+		return res.status(401).json({ message: 'token expired' });
 	}
 };
 
