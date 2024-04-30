@@ -20,15 +20,15 @@ CREATE TABLE blogs (
 		created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Followers table, cascade delete so when user is deleted, any follow relationship is deleted.
-CREATE TABLE followers (
-	follower_id INT,
-	followee_id INT,
-	PRIMARY KEY (follower_id, followee_id),
-	FOREIGN KEY (follower_id) REFERENCES users(id) ON
-	DELETE
-		CASCADE,
-		FOREIGN KEY (followee_id) REFERENCES users(id) ON
-	DELETE
-		CASCADE
-);
+---- Followers table, cascade delete so when user is deleted, any follow relationship is deleted.
+--CREATE TABLE followers (
+--	follower_id INT,
+--	followee_id INT,
+--	PRIMARY KEY (follower_id, followee_id),
+--	FOREIGN KEY (follower_id) REFERENCES users(id) ON
+--	DELETE
+--		CASCADE,
+--		FOREIGN KEY (followee_id) REFERENCES users(id) ON
+--	DELETE
+--		CASCADE
+--);
