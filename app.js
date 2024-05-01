@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
+const path = require('path');
 require('dotenv').config();
 morgan.token('body', (req) => {
 	return JSON.stringify(req.body);
@@ -26,4 +27,11 @@ app.get('/', (req, res) => {
 	res.sendStatus(200);
 });
 
+app.get('/*', function (req, res) {
+	res.sendFile(path.join(__dirname, 'dist/index.html'), function (err) {
+		if (err) {
+			res.status(500).send(err);
+		}
+	});
+});
 module.exports = app;
