@@ -12,7 +12,7 @@ usersRouter.post('/signup', async (req, res, next) => {
 		}
 		try {
 			const query = await pool.query(queries.createUser, [
-				req.body.email,
+				req.body.email.toLowerCase(),
 				hash,
 			]);
 			res.status(201).json({ message: 'Registration successful' });
@@ -33,7 +33,7 @@ usersRouter.patch('/changepassword', headerCheck_mw, async (req, res, next) => {
 		try {
 			const query = await pool.query(queries.updatePasswordByEmail, [
 				hash,
-				req.user.email,
+				req.user.email.toLowerCase(),
 			]);
 			res.status(200).json({ message: 'password changed successfully' });
 		} catch (error) {

@@ -7,7 +7,7 @@ const auth_mw = async (req, res, next) => {
 			.status(401)
 			.json({ message: 'Login failed - missing credentials' });
 	}
-	const email = req.body.email;
+	const email = req.body.email.toLowerCase();
 	const password = req.body.password;
 
 	const found = await pool.query(`SELECT * FROM users WHERE email = $1`, [

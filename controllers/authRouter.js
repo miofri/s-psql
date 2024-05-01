@@ -7,7 +7,7 @@ const auth_mw = require('./middlewares/auth_mw');
 authRouter.post('/login', auth_mw, async (req, res) => {
 	const token = jwt.sign(
 		{
-			email: req.user.email,
+			email: req.user.email.toLowerCase(),
 		},
 		process.env.JWT_SECRET_KEY,
 		{ expiresIn: '30m' }
