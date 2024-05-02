@@ -6,7 +6,7 @@ const { pool } = require('../db/db');
 const headerCheck_mw = require('./middlewares/headerCheck_mw');
 const queries = require('./queries');
 
-const notAuthorizedMiddleware = (req, res, next) => {
+const notAuthorizedMiddleware = (req, res, next, error) => {
 	return res.status(401).json({ message: 'Not authorized!' });
 };
 

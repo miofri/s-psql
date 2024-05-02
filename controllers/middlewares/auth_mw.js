@@ -1,5 +1,6 @@
 const { pool } = require('../../db/db');
 const bcrypt = require('bcrypt');
+const { findUserByEmail } = require('../queries');
 
 const auth_mw = async (req, res, next) => {
 	if (!req.body.email || !req.body.password) {
@@ -10,9 +11,7 @@ const auth_mw = async (req, res, next) => {
 	const email = req.body.email.toLowerCase();
 	const password = req.body.password;
 
-	const found = await pool.query(`SELECT * FROM users WHERE email = $1`, [
-		email,
-	]);
+	const found = await pool.query(findUserByEmail, [email]);
 
 	if (found.rows.length === 0) {
 		return res.status(404).json({ message: 'User not found' });
