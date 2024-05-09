@@ -8,6 +8,7 @@ authRouter.post('/login', auth_mw, async (req, res) => {
 	const token = jwt.sign(
 		{
 			email: req.user.email.toLowerCase(),
+			sub: req.user.sub,
 		},
 		process.env.JWT_SECRET_KEY,
 		{ expiresIn: '30m' }

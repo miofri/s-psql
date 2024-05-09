@@ -17,12 +17,11 @@ const auth_mw = async (req, res, next) => {
 	}
 	const passwordHash = found.rows[0].password;
 	const match = await bcrypt.compare(password, passwordHash);
-	console.log(match);
 
 	if (!match) {
 		return res.status(401).json({ message: 'Login failed - unathourized' });
 	}
-	req.user = { email: found.rows[0].email, user_id: found.rows[0].id };
+	req.user = { email: found.rows[0].email, sub: found.rows[0].id };
 	next();
 };
 

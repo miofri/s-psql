@@ -3,8 +3,8 @@
 -- User table
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
-	email VARCHAR(255) UNIQUE NOT NULL,
-	password VARCHAR(255) NOT NULL,
+	email VARCHAR(60) UNIQUE NOT NULL,
+	password VARCHAR(100) NOT NULL,
 	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -21,14 +21,14 @@ CREATE TABLE blogs (
 );
 
 ---- Followers table, cascade delete so when user is deleted, any follow relationship is deleted.
---CREATE TABLE followers (
---	follower_id INT,
---	followee_id INT,
---	PRIMARY KEY (follower_id, followee_id),
---	FOREIGN KEY (follower_id) REFERENCES users(id) ON
---	DELETE
---		CASCADE,
---		FOREIGN KEY (followee_id) REFERENCES users(id) ON
---	DELETE
---		CASCADE
---);
+CREATE TABLE followers (
+	follower_id INT,
+	followee_id INT,
+	PRIMARY KEY (follower_id, followee_id),
+	FOREIGN KEY (follower_id) REFERENCES users(id) ON
+	DELETE
+		CASCADE,
+		FOREIGN KEY (followee_id) REFERENCES users(id) ON
+	DELETE
+		CASCADE
+);

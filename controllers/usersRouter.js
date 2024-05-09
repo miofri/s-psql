@@ -6,10 +6,7 @@ const saltRounds = 10;
 const queries = require('./queries');
 
 usersRouter.post('/signup', async (req, res, next) => {
-	bcrypt.hash(req.body.password, saltRounds, async function (error, hash) {
-		if (error) {
-			next(error);
-		}
+	bcrypt.hash(req.body.password, async function (error, hash) {
 		try {
 			const query = await pool.query(queries.createUser, [
 				req.body.email.toLowerCase(),
