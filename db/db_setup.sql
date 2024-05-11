@@ -5,7 +5,9 @@ CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
 	email VARCHAR(60) UNIQUE NOT NULL,
 	password VARCHAR(100) NOT NULL,
-	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+	first_name VARCHAR(50),
+	last_name VARCHAR(50)
 );
 
 -- Blog table, cascade delete so that when user is deleted, blogs are also deleted.
@@ -31,4 +33,9 @@ CREATE TABLE followers (
 		FOREIGN KEY (followee_id) REFERENCES users(id) ON
 	DELETE
 		CASCADE
+);
+
+CREATE TABLE tags (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(50) UNIQUE NOT NULL
 );

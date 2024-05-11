@@ -10,11 +10,9 @@ const notAuthorizedMiddleware = (req, res, next) => {
 	return res.status(401).json({ message: 'Not authorized!' });
 };
 
-blogsRouter.get('/post/:userid', headerCheck_mw, async (req, res, next) => {
+blogsRouter.get('/post/:sub', headerCheck_mw, async (req, res, next) => {
 	try {
-		const query = await pool.query(queries.selectPostsByid, [
-			req.params.userid,
-		]);
+		const query = await pool.query(queries.selectPostsByid, [req.params.sub]);
 		res.json(query.rows);
 	} catch (error) {
 		next(error);
@@ -26,7 +24,7 @@ blogsRouter.post('/post', headerCheck_mw, async (req, res, next) => {
 		const query = await pool.query(queries.createNewBlog, [
 			req.body.title,
 			req.body.body,
-			req.body.user_id,
+			req.body.sub,
 		]);
 		res.status(200).json({ message: 'post created successfully' });
 	} catch (error) {
