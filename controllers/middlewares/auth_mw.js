@@ -27,7 +27,6 @@ const auth_mw = async (req, res, next) => {
 		firstName: found.rows[0].first_name,
 		lastName: found.rows[0].last_name,
 	};
-	console.log('user:', req.user);
 
 	next();
 };
