@@ -20,12 +20,30 @@ blogsRouter.get('/post/:sub', headerCheck_mw, async (req, res, next) => {
 });
 
 blogsRouter.post('/post', headerCheck_mw, async (req, res, next) => {
+	const client = await pool.connect();
 	try {
-		const query = await pool.query(queries.createNewBlog, [
+		await client.query('BEGIN');
+		const { rows } = await pool.query(queries.createNewBlog, [
 			req.body.title,
 			req.body.body,
 			req.body.sub,
 		]);
+		const blogId = rows[0].id;
+		const tags = req.body.tags;
+		for (const tag of tags) {
+			let tagId;
+			const tagInsertResult = await client.query(queries.insertTag, [tag]);
+			if (tagInsertResult.rows.length > 0) {
+				tagId = tagInsertResult.rows[0].id;
+			} else {
+				// If the tag already exists, get its ID
+				const tagSelectResult = await client.query(queries.getTagId, [tag]);
+				tagId = tagSelectResult.rows[0].id;
+			}
+
+			await client.query(queries.insertBlogTag, [blogId, tagId]);
+		}
+		await client.query('COMMIT');
 		res.status(200).json({ message: 'post created successfully' });
 	} catch (error) {
 		next(error);
