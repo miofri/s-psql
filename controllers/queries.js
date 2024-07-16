@@ -6,6 +6,7 @@ const updatePasswordByEmail = `UPDATE users SET password = $1 WHERE email = $2`;
 
 //blog router
 const selectPostsByid = `SELECT * FROM blogs WHERE user_id = ($1)::uuid`;
+const jointTableBlogID_TagID = `SELECT * from blogs WHERE blogs.user_id = ($1)::uuid JOIN blog_tags on blog_tags.blog_id = blogs.id join tags on tags.id = blog_tags.tag_id `;
 const updateBlogById = `UPDATE blogs SET title = $1, body = $2, date = $3 WHERE id = $4 RETURNING *`;
 const deleteBlogById = `DELETE FROM blogs WHERE id = $1`;
 //creating blog and tag

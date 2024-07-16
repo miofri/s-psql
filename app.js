@@ -13,7 +13,7 @@ const authRouter = require('./controllers/authRouter');
 const usersRouter = require('./controllers/usersRouter');
 const blogsRouter = require('./controllers/blogsRouter');
 
-app.use(express.static('dist'));
+// app.use(express.static('dist'));
 app.use(express.json());
 app.use(cors());
 app.use(

@@ -13,6 +13,8 @@ const notAuthorizedMiddleware = (req, res, next) => {
 blogsRouter.get('/post/:sub', headerCheck_mw, async (req, res, next) => {
 	try {
 		const query = await pool.query(queries.selectPostsByid, [req.params.sub]);
+		console.log(query.rows);
+
 		res.json(query.rows);
 	} catch (error) {
 		next(error);
@@ -28,7 +30,7 @@ blogsRouter.post('/post', headerCheck_mw, async (req, res, next) => {
 			req.body.body,
 			req.body.sub,
 		]);
-		const blogId = rows[0].id;
+		const blogId = rows[0].id; //get blogid to associate with the tags
 		const tags = req.body.tags;
 		for (const tag of tags) {
 			let tagId;

@@ -4,6 +4,11 @@ const jwt = require('jsonwebtoken');
 
 const auth_mw = require('./middlewares/auth_mw');
 
+// authRouter.post('/login', (req, res) => {
+// 	console.log('Request Body:', req.body); // Add logging
+// 	res.json({ message: 'Login route hit successfully', body: req.body }); // Respond immediately
+// });
+
 authRouter.post('/login', auth_mw, async (req, res) => {
 	const token = jwt.sign(
 		{

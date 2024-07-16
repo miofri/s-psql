@@ -11,7 +11,6 @@ const auth_mw = async (req, res, next) => {
 	const email = req.body.email.toLowerCase();
 	const password = req.body.password;
 	const found = await pool.query(findUserByEmail, [email]);
-
 	if (found.rows.length === 0) {
 		return res.status(404).json({ message: 'User not found' });
 	}
