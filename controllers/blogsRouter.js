@@ -12,7 +12,9 @@ const notAuthorizedMiddleware = (req, res, next) => {
 
 blogsRouter.get('/post/:sub', headerCheck_mw, async (req, res, next) => {
 	try {
-		const query = await pool.query(queries.selectPostsByid, [req.params.sub]);
+		const query = await pool.query(queries.jointTableBlogID_TagID, [
+			req.params.sub,
+		]);
 		console.log(query.rows);
 
 		res.json(query.rows);
